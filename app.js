@@ -1,7 +1,10 @@
 const express = require("express");
 const cors = require("cors");
+const passport = require("passport");
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
 /* routes */
-const userRoutes = require("./api_routes/userRoutes.js");
+const authRoutes = require("./api_routes/authRoutes.js");
 const cnxRoutes = require("./api_routes/cnxRoutes.js");
 const taskRoutes = require("./api_routes/taskRoutes.js");
 
@@ -16,15 +19,42 @@ app.use(express.urlencoded({ extended: true }));
 
 /* cors setup */
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: "https://mynewtestapp321.herokuapp.com",
+  credentials: true,
 };
 app.options("*", cors(corsOptions));
 app.use(cors(corsOptions));
 
+/* session setup */
+app.use(
+  session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.DB_STRING,
+      collectionName: "sessions",
+    }),
+    cookie: {
+      maxAge: 1000 * 60 * 60,
+      sameSite: "none",
+      secure: true,
+    },
+  })
+);
+
+/* passport configuration */
+require("./config/passportConfig");
+app.use(passport.initialize());
+app.use(passport.session());
+
 /* routes */
-app.use("/api/user", userRoutes);
+app.use("/auth", authRoutes);
 app.use("/api/connections", cnxRoutes);
 app.use("/api/tasks", taskRoutes);
 
+app.get("/aaa", (req, res) => {
+  return res.send("<h1>I am here</h1>");
+});
 /* litsen on port process.env.PORT || 5000 */
 app.listen(process.env.PORT || 5000);
