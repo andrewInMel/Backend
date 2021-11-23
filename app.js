@@ -1,3 +1,8 @@
+/**
+ * part of the session & JWT authentication is inspired or credit to <Zach Gollwitzer>,
+ * his github address is: https://github.com/zachgoll
+ */
+
 const express = require("express");
 const cors = require("cors");
 /* routes */
@@ -6,7 +11,7 @@ const cnxRoutes = require("./api_routes/cnxRoutes.js");
 const taskRoutes = require("./api_routes/taskRoutes.js");
 
 /* enviroment variable, access by process.env.Variable_Name */
-require("dotenv").config();
+const aaa = require("dotenv").config();
 
 /* express application */
 const app = express();
