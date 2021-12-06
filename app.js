@@ -1,20 +1,23 @@
-/**
- * part of the session & JWT authentication is inspired or credit to <Zach Gollwitzer>,
- * his github address is: https://github.com/zachgoll
- */
-
 const express = require("express");
 const cors = require("cors");
 /* routes */
 const userRoutes = require("./api_routes/userRoutes.js");
 const cnxRoutes = require("./api_routes/cnxRoutes.js");
 const taskRoutes = require("./api_routes/taskRoutes.js");
+const passport = require("passport");
 
-/* enviroment variable, access by process.env.Variable_Name */
-const aaa = require("dotenv").config();
+// /* enviroment variable, access by process.env.Variable_Name */
+// require("dotenv").config();
 
 /* express application */
 const app = express();
+
+/* passport configuration */
+require("./config/passportConfig")(passport);
+
+/* initialize passport */
+app.use(passport.initialize());
+
 /* bodyParser */
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
