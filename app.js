@@ -7,9 +7,6 @@ const cnxRoutes = require("./api_routes/cnxRoutes.js");
 const taskRoutes = require("./api_routes/taskRoutes.js");
 const authRoutes = require("./api_routes/authRoutes.js");
 
-/* enviroment variable, access by process.env.Variable_Name */
-// require("dotenv").config();
-
 /* express application */
 const app = express();
 
@@ -31,6 +28,7 @@ app.options("*", cors(corsOptions));
 app.use(cors(corsOptions));
 
 /* routes */
+app.use("/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/connections", cnxRoutes);
 app.use("/api/tasks", taskRoutes);
