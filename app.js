@@ -1,12 +1,13 @@
 const express = require("express");
 const cors = require("cors");
+const passport = require("passport");
 /* routes */
 const userRoutes = require("./api_routes/userRoutes.js");
 const cnxRoutes = require("./api_routes/cnxRoutes.js");
 const taskRoutes = require("./api_routes/taskRoutes.js");
-const passport = require("passport");
+const authRoutes = require("./api_routes/authRoutes.js");
 
-// /* enviroment variable, access by process.env.Variable_Name */
+/* enviroment variable, access by process.env.Variable_Name */
 // require("dotenv").config();
 
 /* express application */
