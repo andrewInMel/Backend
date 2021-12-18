@@ -10,6 +10,7 @@
   "author": "Han Liu",
   "license": "ISC",
   "dependencies": {
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
@@ -17,6 +18,7 @@
     "mongodb": "^4.1.4",
     "mongoose": "^6.0.12",
     "passport": "^0.5.0",
+    "passport-google-oauth20": "^2.0.0",
     "passport-jwt": "^4.0.0"
   }
 }

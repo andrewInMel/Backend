@@ -5,8 +5,8 @@ const path = require("path");
 const keyPath = path.join(__dirname, "./encryption/id_rsa_priv.pem");
 const privateKey = fs.readFileSync(keyPath, "utf8");
 
-function issueJWT(user) {
-  const id = user._id;
+function issueJWT(userId) {
+  const id = userId;
   const expires = "30min";
 
   const playlod = {

@@ -3,10 +3,8 @@ const connection = require("../config/databaseConfig");
 
 /* user schema */
 const userSchema = new mongoose.Schema({
-  firstName: {
-    type: String,
-    require: [true],
-  },
+  googleId: String,
+  firstName: String,
   lastName: String,
   phoneNumber: String,
   address: String,
@@ -20,14 +18,8 @@ const userSchema = new mongoose.Schema({
     type: String,
     require: [true],
   },
-  hash: {
-    type: String,
-    require: [true],
-  },
-  salt: {
-    type: String,
-    require: [true],
-  },
+  hash: String,
+  salt: String,
 });
 
 const User = connection.model("User", userSchema);
