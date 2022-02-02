@@ -2,7 +2,6 @@ const fs = require("fs");
 const path = require("path");
 const User = require("../models/userModel");
 const JwtStrategy = require("passport-jwt").Strategy;
-const ExtractJwt = require("passport-jwt").ExtractJwt;
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const passport = require("passport");
 require("dotenv").config();
@@ -15,13 +14,12 @@ const cookieExtractor = (req) => {
   if (req && req.cookies) {
     token = req.cookies["jwt"];
   }
-  console.log("i am at jwt extractor:", token);
-  return token;
+  return token.slice(7);
 };
 
 /* config options */
 const opts = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken,
+  jwtFromRequest: cookieExtractor,
   secretOrKey: pubKey,
   algorithms: ["RS256"],
 };
@@ -32,15 +30,12 @@ module.exports.jwtConfig = (passport) =>
       User.findOne({ _id: jwt_payload.sub })
         .then((user) => {
           if (user) {
-            console.log("i am here 33");
             return done(null, user);
           } else {
-            console.log("i am here 36");
             return done(null, false);
           }
         })
         .catch((err) => {
-          console.log("i am here 40");
           return done(err, false);
         });
     })
@@ -51,26 +46,27 @@ module.exports.googleConfig = passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_SECRET,
-      callbackURL: "http://localhost:5000/auth/google/callback",
+      callbackURL: "https://example.com:5000/auth/google/callback",
     },
     /* called when successfully anthorized by google */
     function (accessToken, refreshToken, profile, cb) {
       User.findOne({ googleId: profile.id })
-        .then((user) => {
-          if (!user) {
+        .then((oneUser) => {
+          if (!oneUser) {
             const newUser = new User({
               googleId: profile.id,
               firstName: profile.name.givenName,
               lastName: profile.name.familyName,
               email: profile.emails[0].value,
             });
-            newUser.save();
+            newUser.save().then((user) => {
+              cb(null, user);
+            });
+          } else {
+            cb(null, oneUser);
           }
         })
-        .catch((err) => {
-          return done(err, false);
-        });
-      cb(null, profile);
+        .catch((e) => console.log(e));
     }
   )
 );

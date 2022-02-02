@@ -6,6 +6,7 @@ router.get(
   "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    console.log(req.user);
     res.send("auth passes");
   }
 );
