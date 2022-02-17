@@ -7,6 +7,7 @@ const MongoStore = require("connect-mongo");
 const authRoutes = require("./api_routes/authRoutes.js");
 const cnxRoutes = require("./api_routes/cnxRoutes.js");
 const taskRoutes = require("./api_routes/taskRoutes.js");
+const userRoutes = require("./api_routes/userRoutes.js");
 
 /* enviroment variable, access by process.env.Variable_Name */
 require("dotenv").config();
@@ -19,7 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 
 /* cors setup */
 const corsOptions = {
-  origin: "https://mynewtestapp321.herokuapp.com",
+  origin: "http://localhost:3000",
   credentials: true,
 };
 app.options("*", cors(corsOptions));
@@ -37,8 +38,8 @@ app.use(
     }),
     cookie: {
       maxAge: 1000 * 60 * 60,
-      sameSite: "none",
-      secure: true,
+      //  sameSite: "none",
+      //  secure: true,
     },
   })
 );
@@ -52,9 +53,7 @@ app.use(passport.session());
 app.use("/auth", authRoutes);
 app.use("/api/connections", cnxRoutes);
 app.use("/api/tasks", taskRoutes);
+app.use("/api/users", userRoutes);
 
-app.get("/aaa", (req, res) => {
-  return res.send("<h1>I am here</h1>");
-});
 /* litsen on port process.env.PORT || 5000 */
 app.listen(process.env.PORT || 5000);

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const connection = require("../config/databaseConfig");
+const db = require("../config/databaseConfig");
 
 /* user schema */
 const cnxSchema = new mongoose.Schema({
@@ -18,10 +18,10 @@ const cnxSchema = new mongoose.Schema({
   company: String,
   occupation: String,
   birthday: String,
-  Vip: String,
+  vip: String,
   description: String,
   imageSrc: String,
-  notes: String,
+  notes: [String],
   tags: [String],
   github: String,
   instagram: String,
@@ -30,4 +30,4 @@ const cnxSchema = new mongoose.Schema({
 });
 
 /* export model */
-module.exports = connection.model("Connection", cnxSchema);
+module.exports = db.model("Connection", cnxSchema);

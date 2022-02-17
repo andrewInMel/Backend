@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const connection = require("../config/databaseConfig");
+const db = require("../config/databaseConfig");
 
 /* user schema */
 const userSchema = new mongoose.Schema({
@@ -20,16 +20,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     require: [true],
   },
-  hash: {
-    type: String,
-    require: [true],
-  },
-  salt: {
-    type: String,
-    require: [true],
-  },
+  hash: String,
+  salt: String,
 });
 
-const User = connection.model("User", userSchema);
+const User = db.model("User", userSchema);
 /* export model */
 module.exports = User;
