@@ -1,16 +1,23 @@
 const mongoose = require("mongoose");
-const connection = require("../config/databaseConfig");
+const db = require("../config/databaseConfig");
 
 /* task schema */
 const taskSchema = mongoose.Schema({
+  userId: {
+    type: String,
+    require: [true],
+  },
   taskName: {
     type: String,
     require: [true],
   },
   priority: String,
-  Status: String,
-  members: [Number],
+  status: String,
+  startDate: String,
+  endDate: String,
+  description: String,
+  members: [String],
 });
 
 /* export model */
-module.exports = connection.model("Task", taskSchema);
+module.exports = db.model("Task", taskSchema);

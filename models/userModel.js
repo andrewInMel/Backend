@@ -1,10 +1,13 @@
 const mongoose = require("mongoose");
-const connection = require("../config/databaseConfig");
+const db = require("../config/databaseConfig");
 
 /* user schema */
 const userSchema = new mongoose.Schema({
   googleId: String,
-  firstName: String,
+  firstName: {
+    type: String,
+    require: [true],
+  },
   lastName: String,
   phoneNumber: String,
   address: String,
@@ -22,6 +25,6 @@ const userSchema = new mongoose.Schema({
   salt: String,
 });
 
-const User = connection.model("User", userSchema);
+const User = db.model("User", userSchema);
 /* export model */
 module.exports = User;

@@ -36,7 +36,7 @@ app.use(cors(corsOptions));
 
 /* routes */
 app.use("/auth", authRoutes);
-app.use("/api/user", userRoutes);
+app.use("/api/users", userRoutes);
 app.use("/api/connections", cnxRoutes);
 app.use("/api/tasks", taskRoutes);
 

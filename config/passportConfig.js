@@ -10,11 +10,12 @@ const pathToKey = path.join(__dirname, "/../", "id_rsa_pub.pem");
 const pubKey = fs.readFileSync(pathToKey, "utf-8");
 
 const cookieExtractor = (req) => {
-  var token = null;
-  if (req && req.cookies) {
-    token = req.cookies["jwt"];
+  const token = req.cookies["jwt"];
+  if (token != null) {
+    return token.slice(7);
+  } else {
+    return false;
   }
-  return token.slice(7);
 };
 
 /* config options */

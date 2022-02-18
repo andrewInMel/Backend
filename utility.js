@@ -7,7 +7,7 @@ const privateKey = fs.readFileSync(keyPath, "utf8");
 
 function issueJWT(user) {
   const id = user._id;
-  const expires = "30min";
+  const expires = "60min";
 
   const playlod = {
     sub: id,

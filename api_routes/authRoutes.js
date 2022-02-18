@@ -5,6 +5,7 @@ const genPassword = require("../encryption/passwordEncrypt").genPassword;
 const validate = require("../encryption/passwordEncrypt").validate;
 const issueJWT = require("../utility");
 const passport = require("passport");
+const isAuthenticated = require("./authMiddleware").isAuthenticated;
 
 /* user sign in */
 router.post("/login", (req, res) => {
@@ -28,26 +29,6 @@ router.post("/login", (req, res) => {
       }
     })
     .catch((error) => console.log(error));
-});
-
-/* user register */
-router.post("/register", (req, res) => {
-  const firstName = req.body.firstName;
-  const lastName = req.body.lastName;
-  const email = req.body.email;
-  const password = req.body.password;
-  /* generate password hash */
-  const { hash, salt } = genPassword(password);
-  /* create a new user & store it in database */
-  const newUser = new User({
-    firstName: firstName,
-    lastName: lastName,
-    email: email,
-    hash: hash,
-    salt: salt,
-  });
-  newUser.save();
-  res.status(200).json({ created: true });
 });
 
 router.get(
