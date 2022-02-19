@@ -2,7 +2,9 @@
 
 ## Introduction
 
-This is the back end repository for the practice project Connectd. This is a personal CRM (customer relationship manager), created with React, Node.js, and MongoDB.
+This is the backend repository for the practice project Connectd. Connectd is a personal CRM (customer relationship manager), created with React, Node.js, and MongoDB. 
+
+_P.S. This is a rewritten project, original backend is written by Django and I was the frontend lead in the orginal project. The original team project is documented at: [**Confluence - Connectd CRM**](https://comp30022-079.atlassian.net/wiki/spaces/CRM/overview)_
 
 * Frontend repository is located at: [**Frontend Repository**](https://github.com/andrewInMel/Frontend)
 
@@ -12,17 +14,15 @@ This is the back end repository for the practice project Connectd. This is a per
 
 * Backend hosted on: [**Heroku - connectdcrm**](https://connectdcrm.herokuapp.com/)
 
-* The original team project is documented at: [**Confluence - Connectd CRM**](https://comp30022-079.atlassian.net/wiki/spaces/CRM/overview)
-
 ## About the backend server
 
-The backend server of our CRM is built based on Node.js. The backend provides list of API endpoints to allow data exchange with frontend application, including **retrieve**, **create**, **update** and **delete** user's **connections**, **tasks**, **groups**.
+The backend server of our CRM is built based on Node.js. The backend provides list of API endpoints to allow data exchange with frontend application, including **get**, **create**, **update** and **delete** user's **connections**, **tasks**, **groups**.
 
 ## Table of contents
 
 - [Local Configuration](#local-configuration)
 - [Features](#features)
-- [API Endpoints](#API-endpoints)
+- [API Endpoints](#api-endpoints)
 - [Authentication System](#authentication-system)
 - [Module Structure](#module-structure)
 - [Tool Stack](#tool-stack)
@@ -62,7 +62,6 @@ The backend server of our CRM is built based on Node.js. The backend provides li
 
 ## API Endpoints
 
-[**Swagger**](https://connectdcrm.herokuapp.com/) has been implemented as the API documentation tool which is also hosted on Heroku. Swagger is an UI friendly documentation tool for APIs and allows to visualise and interact with the API’s resources directly. It lists all the API endpoints showed below and can be accessed through the main page of backend server [**here**](https://connectdcrm.herokuapp.com/).
 ### Authentication
 | Endpoint       | HTTP Verb  | Description                              |
 | :------------  | :--------- | :------------                            |
