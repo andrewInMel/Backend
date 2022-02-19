@@ -3,6 +3,7 @@ const db = require("../config/databaseConfig");
 
 /* user schema */
 const userSchema = new mongoose.Schema({
+  googleId: String,
   firstName: {
     type: String,
     require: [true],
