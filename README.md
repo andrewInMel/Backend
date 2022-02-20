@@ -4,7 +4,7 @@
 
 This is the backend repository for the practice project Connectd. Connectd is a personal CRM (customer relationship manager), created with React, Node.js, and MongoDB. 
 
-_**P.S. This is a rewritten project. The original backend is written by Django and I was the frontend lead in the original project. The original team project is documented at: [**Confluence - Connectd CRM**](https://comp30022-079.atlassian.net/wiki/spaces/CRM/overview)**_
+_**P.S. This is a rewritten project. The original backend is written in Django and I was the frontend lead in the original project. The original team project is documented at: [**Confluence - Connectd CRM**](https://comp30022-079.atlassian.net/wiki/spaces/CRM/overview)**_
 
 * Frontend repository is located at: [**Frontend Repository**](https://github.com/andrewInMel/Frontend)
 
