@@ -145,8 +145,8 @@ Express has been chosen as the framework for backend development. Some main pack
 | passport                | 0.5.0    | Authentication middleware                 |
 | mongodb                 | 4.1.4    | NoSQL database                            |
 | cors                    | 2.8.5    | Enable CORS with various options          |
-| passport-google-oauth20 | 2.0.0    | google Oauth2.0 strategy                  |
-| passport-local          | 1.0.0    | local strategy, i.e. username & password  |
+| passport-google-oauth20 | 2.0.0    | Google Oauth2.0 strategy                  |
+| passport-local          | 1.0.0    | Local strategy, i.e. username & password  |
 
 ----------------------------------------------------
 
