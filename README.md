@@ -4,7 +4,7 @@
 
 This is the backend repository for the practice project Connectd. Connectd is a personal CRM (customer relationship manager), created with React, Node.js, and MongoDB. 
 
-_P.S. This is a rewritten project, original backend is written by Django and I was the frontend lead in the orginal project. The original team project is documented at: [**Confluence - Connectd CRM**](https://comp30022-079.atlassian.net/wiki/spaces/CRM/overview)_
+_**P.S. This is a rewritten project. The original backend is written by Django and I was the frontend lead in the orginal project. The original team project is documented at: [**Confluence - Connectd CRM**](https://comp30022-079.atlassian.net/wiki/spaces/CRM/overview)**_
 
 * Frontend repository is located at: [**Frontend Repository**](https://github.com/andrewInMel/Frontend)
 
@@ -16,7 +16,7 @@ _P.S. This is a rewritten project, original backend is written by Django and I w
 
 ## About the backend server
 
-The backend server of our CRM is built based on Node.js. The backend provides list of API endpoints to allow data exchange with frontend application, including **get**, **create**, **update** and **delete** user's **connections**, **tasks**, **groups**.
+The backend server of this project is built based on Node.js. The backend provides list of API endpoints to allow data exchange with frontend application, including **get**, **create**, **update** **&** **delete** **user's connections**, **tasks**, **groups**.
 
 ## Table of contents
 
@@ -39,8 +39,6 @@ The backend server of our CRM is built based on Node.js. The backend provides li
 
 **Steps:**
 1. Pull the backend repository from GitHub
-    * You may use command `git clone <repo>` if you haven’t cloned the repository before
-    * Or simply run `git pull` to fetch the latest commit
 2. In the folder of the project, run `npm install` or `yarn` to install all dependancies.
 3. Run command `node app.js` to run the backend server, 
     * By default, the server will run on port `5000` or `process.env.PORT`
@@ -53,7 +51,7 @@ The backend server of our CRM is built based on Node.js. The backend provides li
 * Authentication
     * cookie authentication  
     * google login enabled through Oauth2.0
-    * improved security, such as, aplly httpOnly, secure & samesite = none flags 
+    * improved security, such as, apply httpOnly, secure & samesite = none flags 
 * Connections / Tasks / Users
     * get
     * create
@@ -63,33 +61,40 @@ The backend server of our CRM is built based on Node.js. The backend provides li
 ## API Endpoints
 
 ### Authentication
-| Endpoint       | HTTP Verb  | Description                              |
-| :------------  | :--------- | :------------                            |
-| auth/register/ | POST       | Register a new user with email and name  |
-| auth/login/    | POST       | Validate and log in the user             |
-| auth/logout/   | POST       | Log out user with verification            |
+| Endpoint              | HTTP Verb  | Description                              |
+| :------------         | :--------- | :------------                            |
+| auth/login/           | POST       | Validate and log in the user             |
+| auth/logout/          | GET        | Log out user with verification           |
+| auth/google/          | GET        | navigate user to google api              |
+| auth/google/callback/ | GET        | callback routes from google              |
 
 ### Connections
-| Endpoint                  | HTTP Verb  | Description                                  |
-| :------------             | :--------- | :------------                                |
-| api/connections/          | POST       | Create a new connection                      |
-| api/connections/          | GET        | Get a list of all connections                |
-| api/connections/:id       | GET        | Retrieve a specific connection                |
-| api/connections/?userId=  | GET        | Get a user's all connections                 |
-| api/connections/:id       | PATCH      | Update a specific connection's information    |
-| api/connections/:id       | DELETE     | Remove a specific connection                  |
-| api/connections/?userId=  | DELETE     | Remove all connections belong to this user   |
+| Endpoint                      | HTTP Verb  | Description                                  |
+| :------------                 | :--------- | :------------                                |
+| api/connections/:connectionId | DELETE     | Remove a specific connection                 |
+| api/connections/              | GET        | get all connections of an user               |
+| api/connections/:connectionId | GET        | get the detail of a single connection        |
+| api/connections/update        | POST       | update a single connection                   |
+| api/connections/create        | POST       | create a new connection                      |
+
 
 ### Tasks
-| Endpoint            | HTTP Verb  | Description                            |
-| :------------       | :--------- | :------------                          |
-| api/tasks/          | POST       | Create a new task                      |
-| api/tasks/          | GET        | Get a list of all tasks                |
-| api/tasks/:id       | GET        | Retrieve a specific task                |
-| api/tasks/?userId=  | GET        | Get a user's all tasks                 |
-| api/tasks/:id       | PATCH      | Update a specific task's information    |
-| api/tasks/:id       | DELETE     | Remove a specific task                  |
-| api/tasks/?userId=  | DELETE     | Remove all tasks belong to this user   |
+| Endpoint                      | HTTP Verb  | Description                                  |
+| :------------                 | :--------- | :------------                                |
+| api/connections/:connectionId | DELETE     | Remove a specific connection                 |
+| api/connections/              | GET        | get all connections of an user               |
+| api/connections/:connectionId | GET        | get the detail of a single connection        |
+| api/connections/update        | POST       | update a single connection                   |
+| api/connections/create        | POST       | create a new connection                      |
+
+### Users
+| Endpoint                      | HTTP Verb  | Description                                  |
+| :------------                 | :--------- | :------------                                |
+| api/connections/:connectionId | DELETE     | Remove a specific connection                 |
+| api/connections/              | GET        | get all connections of an user               |
+| api/connections/:connectionId | GET        | get the detail of a single connection        |
+| api/connections/update        | POST       | update a single connection                   |
+| api/connections/create        | POST       | create a new connection                      |
 
 
 
