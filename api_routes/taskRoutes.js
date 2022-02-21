@@ -5,14 +5,20 @@ const isAuthenticated = require("./authMiddleware").isAuthenticated;
 
 /* delete a task */
 router.delete("/:taskId", isAuthenticated, async (req, res) => {
-  const taskId = req.params.taskId;
-  await Task.findByIdAndDelete(taskId);
-  res.send("Task deleted");
+  const doc = await Task.findOneAndDelete({
+    _id: req.params.taskId,
+    userId: req.session.passport.user,
+  });
+  if (doc) {
+    res.send("Task deleted");
+  } else {
+    res.send("Task does not exist");
+  }
 });
 
-/* get all tasks of an user */
+/* get all tasks of the authenticated user */
 router.get("/", isAuthenticated, (req, res) => {
-  const userId = req.query.userId;
+  const userId = req.session.passport.user;
   Task.find({ userId: userId }, (err, tasks) => {
     if (err) {
       console.log(err);
@@ -25,9 +31,12 @@ router.get("/", isAuthenticated, (req, res) => {
 
 /* get the detail of a single task */
 router.get("/:taskId", isAuthenticated, (req, res) => {
-  Task.findById(req.params.taskId)
-    .then((task) => {
-      res.send(task);
+  Task.findOne({
+    _id: req.params.taskId,
+    userId: req.session.passport.user,
+  })
+    .then((oneTask) => {
+      res.send(oneTask);
     })
     .catch((err) => {
       console.log(err);
@@ -37,68 +46,47 @@ router.get("/:taskId", isAuthenticated, (req, res) => {
 
 /* create a new task */
 router.post("/create", isAuthenticated, async (req, res) => {
-  const userId = req.body.userId;
-  const taskName = req.body.taskName;
-  const priority = req.body.priority;
-  const status = req.body.status;
-  const startDate = req.body.startDate;
-  const endDate = req.body.endDate;
-  const description = req.body.description;
-  const members = req.body.members;
   /* create a new task  */
   const newTask = new Task({
-    userId: userId,
-    taskName: taskName,
-    priority: priority,
-    status: status,
-    startDate: startDate,
-    endDate: endDate,
-    description: description,
-    members: members,
+    userId: req.session.passport.user,
+    taskName: req.body.taskName,
+    priority: req.body.priority,
+    status: req.body.status,
+    startDate: req.body.startDate,
+    endDate: req.body.endDate,
+    description: req.body.description,
+    members: req.body.members,
   });
-  await newTask.save();
-  res.send("New task created");
+  const result = await newTask.save();
+  if (result) {
+    res.send("New task created");
+  } else {
+    res.send("something went wrong, please try later");
+  }
 });
 
 /* update the detail of a single task */
-router.post("/update", isAuthenticated, (req, res) => {
-  const taskId = req.body.taskId;
-  const taskName = req.body.taskName;
-  const priority = req.body.priority;
-  const status = req.body.status;
-  const startDate = req.body.startDate;
-  const endDate = req.body.endDate;
-  const description = req.body.description;
-  const members = req.body.members;
-  /* update a task  */
-  Task.updateOne(
-    { _id: taskId },
-    {
-      taskName: taskName,
-      priority: priority,
-      status: status,
-      startDate: startDate,
-      endDate: endDate,
-      description: description,
-      members: members,
+router.post("/update/:taskId", isAuthenticated, async (req, res) => {
+  const oneTask = await Task.findById(req.params.taskId);
+  /* verify the authenticated user has permission to carry out the operation */
+  if (oneTask.userId === req.session.passport.user) {
+    oneTask.taskName = req.body.taskName;
+    oneTask.priority = req.body.priority;
+    oneTask.status = req.body.status;
+    oneTask.startDate = req.body.startDate;
+    oneTask.endDate = req.body.endDate;
+    oneTask.description = req.body.description;
+    oneTask.members = req.body.members;
+    /* update document */
+    const result = await oneTask.save();
+    if (result) {
+      res.send("Task updated");
+    } else {
+      res.send("something went wrong, please try later");
     }
-  )
-    .then((counts) => {
-      if (counts.matchedCount === 0) {
-        res.send("Task does not exist");
-      } else {
-        if (counts.modifiedCount === 0) {
-          res.send(
-            "Task's detail updates failed, It may be because of the new detail is the same as the existing detail"
-          );
-        } else {
-          res.send("Task updated");
-        }
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  } else {
+    res.status(401).json("Unauthorised operation or task not found");
+  }
 });
 
 module.exports = router;
