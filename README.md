@@ -52,7 +52,7 @@ The backend server of this project is built based on Node.js. The backend provid
     * cookie & session  
     * google login enabled through Oauth2.0
     * password encryption, i.e. hash & slat
-    * improved security, such as, apply httpOnly, secure & samesite = none flags 
+    * improved security. Apply flags such as: httpOnly, secure & samesite = none  
 * Connections / Tasks / Users
     * get
     * create
@@ -159,9 +159,5 @@ VSCode official website: https://code.visualstudio.com/
 NodeJS official website: https://nodejs.org/en/
 
 Heroku official website: https://www.heroku.com/
-
-Heroku command-line tool: https://devcenter.heroku.com/categories/command-line
-
-Heroku CLI Commands: https://devcenter.heroku.com/articles/heroku-cli-commands
 
 Mongoose: https://mongoosejs.com/docs/
