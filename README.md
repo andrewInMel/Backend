@@ -62,40 +62,40 @@ The backend server of this project is built based on Node.js. The backend provid
 ## API Endpoints
 
 ### Authentication
-| Endpoint                      | HTTP Verb  | Description                                  |
-| :------------                 | :--------- | :------------                                |
-| auth/login                    | POST       | Validate and log in the user                 |
-| auth/logout                   | GET        | Log out user with verification               |
-| auth/google                   | GET        | navigate the user to google API              |
-| auth/google/callback          | GET        | callback routes from google                  |
+| Endpoint                      | HTTP  Method | Description                                  |
+| :------------                 | :---------  | :------------                                |
+| auth/login                    | POST        | Validate and log in the user                 |
+| auth/logout                   | GET         | Log out user with verification               |
+| auth/google                   | GET         | navigate the user to google API              |
+| auth/google/callback          | GET         | callback routes from google                  |
 
 ### Connections
-| Endpoint                      | HTTP Verb  | Description                                  |
-| :------------                 | :--------- | :------------                                |
-| api/connections/:connectionId | DELETE     | Remove a specific connection                 |
-| api/connections               | GET        | get all connections of an user               |
-| api/connections/:connectionId | GET        | get the detail of a single connection        |
-| api/connections/update        | POST       | update a single connection                   |
-| api/connections/create        | POST       | create a new connection                      |
+| Endpoint                      | HTTP Method | Description                                  |
+| :------------                 | :---------  | :------------                                |
+| api/connections/:connectionId | DELETE      | Remove a specific connection                 |
+| api/connections               | GET         | get all connections of an user               |
+| api/connections/:connectionId | GET         | get the detail of a single connection        |
+| api/connections/update        | POST        | update a single connection                   |
+| api/connections/create        | POST        | create a new connection                      |
 
 
 ### Tasks
-| Endpoint                      | HTTP Verb  | Description                                  |
-| :------------                 | :--------- | :------------                                |
-| api/tasks/:taskId             | DELETE     | Remove a specific task                       |
-| api/tasks/                    | GET        | get all tasks of an user                     |
-| api/tasks/:taskId             | GET        | get the detail of a single task              |
-| api/tasks/update              | POST       | update a single task                         |
-| api/tasks/create              | POST       | create a new task                            |
+| Endpoint                      | HTTP Method | Description                                  |
+| :------------                 | :---------  | :------------                                |
+| api/tasks/:taskId             | DELETE      | Remove a specific task                       |
+| api/tasks/                    | GET         | get all tasks of an user                     |
+| api/tasks/:taskId             | GET         | get the detail of a single task              |
+| api/tasks/update              | POST        | update a single task                         |
+| api/tasks/create              | POST        | create a new task                            |
 
 ### Users
-| Endpoint                      | HTTP Verb  | Description                                  |
-| :------------                 | :--------- | :------------                                |
-| api/users/password/:userId    | POST       | update user's password                       |
-| api/users/:userId             | DELETE     | delete account                               |
-| api/users/:userId             | GET        | get user's detial                            |
-| api/users/update              | POST       | update user's detail                         |
-| api/users/register            | POST       | register an user account                     |
+| Endpoint                      | HTTP Method | Description                                  |
+| :------------                 | :---------  | :------------                                |
+| api/users/password/:userId    | POST        | update user's password                       |
+| api/users/:userId             | DELETE      | delete account                               |
+| api/users/:userId             | GET         | get user's detial                            |
+| api/users/update/:userId      | POST        | update user's detail                         |
+| api/users/register            | POST        | register an user account                     |
 
 ## Authentication System
 This branch of the project is using cookie & session to authenticate users. Initially, users can either log in to their account using email & password combined, or they can log in using their Google account. Once they are logged in, a cookie will be attached to their requests, which later is used to verify their identity and authenticate their requests.
