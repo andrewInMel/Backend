@@ -31,11 +31,19 @@ router.post("/login", (req, res) => {
     .catch((error) => console.log(error));
 });
 
+/* user log out */
+router.get("/logout", isAuthenticated, (req, res) => {
+  res.clearCookie("jwt");
+  res.send("You are successfully logged out");
+});
+
+/* google login routes */
 router.get(
   "/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
+/* google api call back routes */
 router.get(
   "/google/callback",
   passport.authenticate("google", { session: false }),

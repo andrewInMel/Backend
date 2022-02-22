@@ -5,18 +5,20 @@ const isAuthenticated = require("./authMiddleware").isAuthenticated;
 
 /* delete a connection */
 router.delete("/:connectionId", isAuthenticated, async (req, res) => {
-  const connectionId = req.params.connectionId;
-  const deletedCnx = await Connection.findByIdAndDelete(connectionId);
-  if (deletedCnx) {
+  const doc = await Connection.findOneAndDelete({
+    _id: req.params.connectionId,
+    userId: req.user._id,
+  });
+  if (doc) {
     res.send("Connection deleted");
   } else {
-    res.send("Connection deletion failed");
+    res.send("Connection does not exist");
   }
 });
 
 /* get all connections of an user  */
 router.get("/", isAuthenticated, (req, res) => {
-  Connection.find({ userId: req.query.userId })
+  Connection.find({ userId: req.user._id })
     .then((connections) => {
       res.send(connections);
     })
@@ -28,7 +30,10 @@ router.get("/", isAuthenticated, (req, res) => {
 
 /* get the detail of a single connection */
 router.get("/:connectionId", isAuthenticated, (req, res) => {
-  Connection.findById(req.params.connectionId)
+  Connection.findOne({
+    _id: req.params.connectionId,
+    userId: req.user._id,
+  })
     .then((connection) => {
       res.send(connection);
     })
@@ -39,51 +44,35 @@ router.get("/:connectionId", isAuthenticated, (req, res) => {
 });
 
 /* update the detail of a single connection */
-router.post("/update", isAuthenticated, (req, res) => {
-  const connectionId = req.body.connectionId;
-  const firstName = req.body.firstName;
-  const lastName = req.body.lastName;
-  const email = req.body.email;
-  const phoneNumber = req.body.phoneNumber;
-  const address = req.body.address;
-  const company = req.body.company;
-  const occupation = req.body.occupation;
-  const birthday = req.body.birthday;
-  const vip = req.body.vip;
-  const description = req.body.description;
-  const imageSrc = req.body.imageSrc;
-  const notes = req.body.notes;
-  const tags = req.body.tags;
-  const github = req.body.github;
-  const instagram = req.body.instagram;
-  const linkedIn = req.body.linkedIn;
-  const twitter = req.body.twitter;
+router.post("/update/:connectionId", isAuthenticated, (req, res) => {
   /* update connection */
   Connection.updateOne(
     {
-      _id: connectionId,
+      _id: req.params.connectionId,
+      userId: req.user._id,
     },
     {
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      phoneNumber: phoneNumber,
-      address: address,
-      company: company,
-      occupation: occupation,
-      birthday: birthday,
-      vip: vip,
-      description: description,
-      imageSrc: imageSrc,
-      notes: notes,
-      tags: tags,
-      github: github,
-      instagram: instagram,
-      linkedIn: linkedIn,
-      twitter: twitter,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      phoneNumber: req.body.phoneNumber,
+      address: req.body.address,
+      company: req.body.company,
+      occupation: req.body.occupation,
+      birthday: req.body.birthday,
+      vip: req.body.vip,
+      description: req.body.description,
+      imageSrc: req.body.imageSrc,
+      notes: req.body.notes,
+      tags: req.body.tags,
+      github: req.body.github,
+      instagram: req.body.instagram,
+      linkedIn: req.body.linkedIn,
+      twitter: req.body.twitter,
     }
   )
     .then((counts) => {
+      console.log(counts);
       if (counts.matchedCount === 0) {
         res.send("Connection does not exist");
       } else {
@@ -103,46 +92,32 @@ router.post("/update", isAuthenticated, (req, res) => {
 
 /* create a new connection */
 router.post("/create", isAuthenticated, async (req, res) => {
-  const email = req.body.email;
-  const firstName = req.body.firstName;
-  const lastName = req.body.lastName;
-  const userId = req.body.userId;
-  const phoneNumber = req.body.phoneNumber;
-  const address = req.body.address;
-  const company = req.body.company;
-  const occupation = req.body.occupation;
-  const birthday = req.body.birthday;
-  const vip = req.body.vip;
-  const description = req.body.description;
-  const imageSrc = req.body.imageSrc;
-  const notes = req.body.notes;
-  const tags = req.body.tags;
-  const github = req.body.github;
-  const instagram = req.body.instagram;
-  const linkedIn = req.body.linkedIn;
-  const twitter = req.body.twitter;
   /* create new connection for the user */
   const newCnx = new Connection({
-    userId: userId,
-    firstName: firstName,
-    lastName: lastName,
-    email: email,
-    phoneNumber: phoneNumber,
-    address: address,
-    company: company,
-    occupation: occupation,
-    birthday: birthday,
-    vip: vip,
-    description: description,
-    imageSrc: imageSrc,
-    notes: notes,
-    tags: tags,
-    github: github,
-    instagram: instagram,
-    linkedIn: linkedIn,
-    twitter: twitter,
+    userId: req.user._id,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email,
+    phoneNumber: req.body.phoneNumber,
+    address: req.body.address,
+    company: req.body.company,
+    occupation: req.body.occupation,
+    birthday: req.body.birthday,
+    vip: req.body.vip,
+    description: req.body.description,
+    imageSrc: req.body.imageSrc,
+    notes: req.body.notes,
+    tags: req.body.tags,
+    github: req.body.github,
+    instagram: req.body.instagram,
+    linkedIn: req.body.linkedIn,
+    twitter: req.body.twitter,
   });
-  await newCnx.save();
-  res.send("new connection created");
+  const result = await newCnx.save();
+  if (result) {
+    res.send("New connection created");
+  } else {
+    res.send("something went wrong, please try later");
+  }
 });
 module.exports = router;
