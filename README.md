@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This is the backend repository for the practice project Connectd. Connectd is a personal CRM (customer relationship manager), created with React, Node.js, and MongoDB. 
+This is the backend repository for the practice project Connectd. Connectd is a personal CRM (customer relationship manager), created with React, Node.js, and MongoDB.    
 
 _**P.S. This is a rewritten project. The original backend is written in Django and I was the frontend lead in the original project. The original team project is documented at: [**Confluence - Connectd CRM**](https://comp30022-079.atlassian.net/wiki/spaces/CRM/overview)**_
 
@@ -31,12 +31,23 @@ The backend server of this project is built based on Node.js. The backend provid
 ## Local Configuration:
 
 **Pre-requirement:**
+
 1. Node.js.
 2. `npm` or `yarn` as the package manager.
 3. Terminal
 4. Git
 5. A code editor (optional).
-
+6. MongoDB connecting url, either locally or cloud.
+7. Credential of google's Apis & service project
+   
+_**This branch is configured to use < https > protocol to communicate to and from frontend app. So, beside the pre-requirements above, there are few things required before running it locally:**_
+* self-signed certificate
+* configure express to use self-signed certificate & https protocol locally
+* configure frontend app to use self-signed certificate, https protocol, and domain < example.com > locally
+* change the default domain < localhost > to < example.com > in your computer system  
+   
+**For more details, please read** [How to use HTTPS for local development](https://web.dev/how-to-use-local-https/) 
+   
 **Steps:**
 1. Pull the backend repository from GitHub
 2. In the folder of the project, run `npm install` or `yarn` to install all dependencies.
@@ -83,7 +94,7 @@ The backend server of this project is built based on Node.js. The backend provid
 | Endpoint                      | HTTP Verb  | Description                                  |
 | :------------                 | :--------- | :------------                                |
 | api/tasks/:taskId             | DELETE     | Remove a specific task                       |
-| api/tasks/                    | GET        | get all tasks of an user                     |
+| api/tasks                     | GET        | get all tasks of an user                     |
 | api/tasks/:taskId             | GET        | get the detail of a single task              |
 | api/tasks/update              | POST       | update a single task                         |
 | api/tasks/create              | POST       | create a new task                            |
@@ -91,21 +102,21 @@ The backend server of this project is built based on Node.js. The backend provid
 ### Users
 | Endpoint                      | HTTP Verb  | Description                                  |
 | :------------                 | :--------- | :------------                                |
-| api/users/password/:userId    | POST       | update user's password                       |
-| api/users/:userId             | DELETE     | delete account                               |
-| api/users/:userId             | GET        | get user's detial                            |
+| api/users/password            | POST     | update user's password                       |
+| api/users                     | DELETE     | delete account                               |
+| api/users                     | GET        | get user's detial                            |
 | api/users/update              | POST       | update user's detail                         |
-| api/users/register            | POST       | register an user account                     |
+| api/users.register            | POST       | register an user account                     |
 
 ## Authentication System
-This branch of the project is using jwt to authenticate users. Initially, users can either log in to their account using email & password combined, or they can log in using their Google account. 
+This branch of the project backend uses jwt to authenticate users. Initially, users can either log in to their account using email & password combined, or they can log in using their Google account. 
 Once they are logged in, an encrypted jwt will be stored in a cookie and then being attached to requests, which later is used to verify user's identity and authenticate user's requests.
 
 Any requests that are not authorized will be rejected, such as:
-* The cookie is missing in the request
+* The cookie that contains jwt is missing in the request
 * The jwt is compromised
 * The user wants to GET, DELETE, UPDATE documents of other users
-* The user has already logged out
+* The authenticated user try to manipulate other users's documents
 
 ## Module Structure
 The file structure of this project is as follows:
