@@ -36,6 +36,9 @@ The backend server of this project is built based on Node.js. The backend provid
 3. Terminal
 4. Git
 5. A code editor (optional).
+6. MongoDB connecting url, either locally or cloud.
+7. Credential of google's Apis & service project
+8. Please remove < secure >, < sameSite >, < httpOnly > flags in the session middleware configuration for local development
 
 **Steps:**
 1. Pull the backend repository from GitHub
