@@ -4,7 +4,7 @@
 
 This is the backend repository for the practice project Connectd. Connectd is a personal CRM (customer relationship manager), created with React, Node.js, and MongoDB. 
 
-_**P.S. This is a rewritten project. The original backend is written in Django and I was the frontend lead in the original project. The original team project is documented at: [**Confluence - Connectd CRM**](https://comp30022-079.atlassian.net/wiki/spaces/CRM/overview)**_
+_**P.S. Connectd is a rewritten project. The original backend is written in Django and I was the frontend lead in the original project. The original team project is documented at: [**Confluence - Connectd CRM**](https://comp30022-079.atlassian.net/wiki/spaces/CRM/overview)**_
 
 * Frontend repository is located at: [**Frontend Repository**](https://github.com/andrewInMel/Frontend)
 
@@ -98,12 +98,12 @@ The backend server of this project is built based on Node.js. The backend provid
 | api/users/register            | POST        | register an user account                     |
 
 ## Authentication System
-This branch of the project is using cookie & session to authenticate users. Initially, users can either log in to their account using email & password combined, or they can log in using their Google account. Once they are logged in, a cookie will be attached to their requests, which later is used to verify their identity and authenticate their requests.
+This branch of the project backend uses cookie & session to authenticate users. Initially, users can either log in to their account using email & password combined, or they can log in using their Google account. Once they are logged in, a cookie will be attached to their requests, which later is used to verify their identity and authenticate their requests.
 
 Any requests that are not authorized will be rejected, such as:
 * The cookie is missing in the request
 * The user wants to GET, DELETE, UPDATE documents of other users
-* The user has already logged out
+* The authenticaated user try to manipulate other user's documents
 
 ## Module Structure
 The file structure of this project is as follows:
