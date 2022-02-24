@@ -94,10 +94,10 @@ The backend server of this project is built based on Node.js. The backend provid
 ### Users
 | Endpoint                      | HTTP Method | Description                                  |
 | :------------                 | :---------  | :------------                                |
-| api/users/password/:userId    | POST        | update user's password                       |
-| api/users/:userId             | DELETE      | delete account                               |
-| api/users/:userId             | GET         | get user's detial                            |
-| api/users/update/:userId      | POST        | update user's detail                         |
+| api/users/password            | POST        | update user's password                       |
+| api/users                     | DELETE      | delete account                               |
+| api/users                     | GET         | get user's detial                            |
+| api/users/update              | POST        | update user's detail                         |
 | api/users/register            | POST        | register an user account                     |
 
 ## Authentication System
