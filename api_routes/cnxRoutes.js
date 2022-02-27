@@ -12,7 +12,7 @@ router.delete("/:connectionId", isAuthenticated, async (req, res) => {
   if (doc) {
     res.send("Connection deleted");
   } else {
-    res.send("Connection does not exist");
+    res.status(500).json("Connection does not exist");
   }
 });
 
@@ -24,7 +24,7 @@ router.get("/", isAuthenticated, (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      res.send("something went wrong, please try later");
+      res.status(500).json("something went wrong, please try later");
     });
 });
 
@@ -39,7 +39,7 @@ router.get("/:connectionId", isAuthenticated, (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      res.send("something went wrong, please try later");
+      res.status(500).json("something went wrong, please try later");
     });
 });
 
@@ -72,14 +72,15 @@ router.post("/update/:connectionId", isAuthenticated, (req, res) => {
     }
   )
     .then((counts) => {
-      console.log(counts);
       if (counts.matchedCount === 0) {
-        res.send("Connection does not exist");
+        res.status(500).json("Connection does not exist");
       } else {
         if (counts.modifiedCount === 0) {
-          res.send(
-            "Connection's detail updates failed, It may be because of the new detail is the same as the existing detail"
-          );
+          res
+            .status(500)
+            .json(
+              "Connection's detail updates failed, It may be because of the new detail is the same as the existing detail"
+            );
         } else {
           res.send("Connection updated");
         }
@@ -104,7 +105,6 @@ router.post("/create", isAuthenticated, async (req, res) => {
     occupation: req.body.occupation,
     birthday: req.body.birthday,
     vip: req.body.vip,
-    description: req.body.description,
     imageSrc: req.body.imageSrc,
     notes: req.body.notes,
     tags: req.body.tags,
@@ -117,7 +117,7 @@ router.post("/create", isAuthenticated, async (req, res) => {
   if (result) {
     res.send("New connection created");
   } else {
-    res.send("something went wrong, please try later");
+    res.status(500).json("something went wrong, please try later");
   }
 });
 module.exports = router;

@@ -4,22 +4,24 @@ const User = require("../models/userModel");
 const Connection = require("../models/cnxModel.js");
 const Task = require("../models/taskModel");
 const genPassword = require("../encryption/passwordEncrypt").genPassword;
-const userAuthenticated = require("./authMiddleware").userAuthenticated;
+const isAuthenticated = require("./authMiddleware").isAuthenticated;
 
 /* update user's password */
-router.post("/password/:userId", userAuthenticated, (req, res) => {
+router.post("/password", isAuthenticated, (req, res) => {
   /* generate password hash */
   const { hash, salt } = genPassword(req.body.password);
   /* update salt and hash */
-  User.updateOne({ _id: req.params.userId }, { hash: hash, salt: salt })
+  User.updateOne({ _id: req.session.passport.user }, { hash: hash, salt: salt })
     .then((counts) => {
       if (counts.matchedCount === 0) {
-        res.send("User does not exist");
+        res.status(500).json("User does not exist");
       } else {
         if (counts.modifiedCount === 0) {
-          res.send(
-            "Password updates failed, It may be because of the new detail is the same as the existing detail"
-          );
+          res
+            .status(500)
+            .json(
+              "Password updates failed, It may be because of the new detail is the same as the existing detail"
+            );
         } else {
           res.send("Password updated");
         }
@@ -31,8 +33,8 @@ router.post("/password/:userId", userAuthenticated, (req, res) => {
 });
 
 /* delete a user */
-router.delete("/:userId", userAuthenticated, async (req, res) => {
-  const userId = req.params.userId;
+router.delete("/", isAuthenticated, async (req, res) => {
+  const userId = req.session.passport.user;
   await Task.deleteMany({ userId: userId });
   await Connection.deleteMany({ userId: userId });
   await User.findByIdAndDelete(userId);
@@ -40,32 +42,34 @@ router.delete("/:userId", userAuthenticated, async (req, res) => {
 });
 
 /* get user's detail */
-router.get("/:userId", userAuthenticated, (req, res) => {
-  User.findById(req.params.userId, (err, user) => {
+router.get("/", isAuthenticated, (req, res) => {
+  User.findById(req.session.passport.user, (err, user) => {
     if (err) {
       console.log(err);
-      res.send("something went wrong, please try later");
+      res.status(500).json("something went wrong, please try later");
     } else {
       if (user) {
         res.send(user);
       } else {
-        res.send("The user does not exist");
+        res.status(500).json("The user does not exist");
       }
     }
   });
 });
 
 /* update user's detail */
-router.post("/update/:userId", userAuthenticated, (req, res) => {
+router.post("/update", isAuthenticated, (req, res) => {
   User.findOne({ email: req.body.email })
     .then((oneUser) => {
       /* check if email address is registered by other user */
-      if (oneUser && oneUser._id.toString() !== req.params.userId) {
-        res.status(401).json("Email is already registered by other user");
+      if (oneUser && oneUser._id.toString() !== req.session.passport.user) {
+        res
+          .status(401)
+          .json("New email address is already registered by other user");
       } else {
         /* update user's detail */
         User.updateOne(
-          { _id: req.params.userId },
+          { _id: req.session.passport.user },
           {
             firstName: req.body.firstName,
             lastName: req.body.lastName,
@@ -74,20 +78,25 @@ router.post("/update/:userId", userAuthenticated, (req, res) => {
             company: req.body.company,
             occupation: req.body.occupation,
             birthday: req.body.birthday,
-            description: req.body.description,
             imageSrc: req.body.imageSrc,
             notes: req.body.notes,
             email: req.body.email,
+            twitter: req.body.twitter,
+            instagram: req.body.instagram,
+            github: req.body.github,
+            linkedIn: req.body.linkedIn,
           }
         )
           .then((counts) => {
             if (counts.matchedCount === 0) {
-              res.send("User does not exist");
+              res.status(500).json("User does not exist");
             } else {
               if (counts.modifiedCount === 0) {
-                res.send(
-                  "User's detail updates failed, It may be because of the new detail is the same as the existing detail"
-                );
+                res
+                  .status(500)
+                  .json(
+                    "User's detail updates failed, It may be because of the new detail is the same as the existing detail"
+                  );
               } else {
                 res.send("User's detail updated");
               }
@@ -110,7 +119,7 @@ router.post("/register", (req, res) => {
   User.findOne({ email: email })
     .then(async (user) => {
       if (user) {
-        res.send("user already exist");
+        res.status(500).json({ email: "User already exist" });
       } else {
         /* generate password hash */
         const { hash, salt } = genPassword(password);
@@ -123,7 +132,7 @@ router.post("/register", (req, res) => {
           salt: salt,
         });
         await newUser.save();
-        res.send("user created");
+        res.send("User created");
       }
     })
     .catch((err) => {

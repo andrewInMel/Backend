@@ -12,7 +12,7 @@ router.delete("/:taskId", isAuthenticated, async (req, res) => {
   if (doc) {
     res.send("Task deleted");
   } else {
-    res.send("Task does not exist");
+    res.status(500).json("Task does not exist");
   }
 });
 
@@ -22,7 +22,9 @@ router.get("/", isAuthenticated, (req, res) => {
   Task.find({ userId: userId }, (err, tasks) => {
     if (err) {
       console.log(err);
-      res.send("something went wrong while retrieving tasks, please try later");
+      res
+        .status(500)
+        .json("something went wrong while retrieving tasks, please try later");
     } else {
       res.send(tasks);
     }
@@ -40,7 +42,7 @@ router.get("/:taskId", isAuthenticated, (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      res.send("something went wrong, please try later");
+      res.status(500).json("something went wrong, please try later");
     });
 });
 
@@ -50,18 +52,18 @@ router.post("/create", isAuthenticated, async (req, res) => {
   const newTask = new Task({
     userId: req.session.passport.user,
     taskName: req.body.taskName,
+    description: req.body.description,
     priority: req.body.priority,
     status: req.body.status,
     startDate: req.body.startDate,
     endDate: req.body.endDate,
-    description: req.body.description,
     members: req.body.members,
   });
   const result = await newTask.save();
   if (result) {
     res.send("New task created");
   } else {
-    res.send("something went wrong, please try later");
+    res.status(500).json("something went wrong, please try later");
   }
 });
 
@@ -82,7 +84,7 @@ router.post("/update/:taskId", isAuthenticated, async (req, res) => {
     if (result) {
       res.send("Task updated");
     } else {
-      res.send("something went wrong, please try later");
+      res.status(500).json("something went wrong, please try later");
     }
   } else {
     res.status(401).json("Unauthorised operation or task not found");

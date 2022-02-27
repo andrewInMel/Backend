@@ -14,13 +14,16 @@ const userSchema = new mongoose.Schema({
   company: String,
   occupation: String,
   birthday: String,
-  description: String,
   imageSrc: String,
-  notes: [String],
+  notes: [{ note: String, date: String }],
   email: {
     type: String,
     require: [true],
   },
+  github: String,
+  instagram: String,
+  linkedIn: String,
+  twitter: String,
   hash: String,
   salt: String,
 });
