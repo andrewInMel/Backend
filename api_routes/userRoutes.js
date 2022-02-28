@@ -74,7 +74,6 @@ router.post("/update", isAuthenticated, (req, res) => {
             company: req.body.company,
             occupation: req.body.occupation,
             birthday: req.body.birthday,
-            description: req.body.description,
             imageSrc: req.body.imageSrc,
             notes: req.body.notes,
             email: req.body.email,
