@@ -25,6 +25,7 @@ const corsOptions = {
 };
 app.options("*", cors(corsOptions));
 app.use(cors(corsOptions));
+app.set("trust proxy", 1);
 
 /* session setup */
 app.use(
@@ -37,7 +38,7 @@ app.use(
       collectionName: "sessions",
     }),
     cookie: {
-      maxAge: 1000 * 60 * 60 * 12,
+      maxAge: 43200000,
       sameSite: "none",
       secure: true,
       httpOnly: true,
