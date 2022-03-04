@@ -23,7 +23,7 @@ router.get(
   passport.authenticate("google"),
   function (req, res) {
     // Successful authentication, redirect home.
-    res.redirect("http://localhost:3000/dashboard");
+    res.redirect(`${process.env.FRONTEND}/dashboard`);
   }
 );
 
