@@ -34,7 +34,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_SECRET,
-      callbackURL: "https://api.andrewliu.id.au/auth/google/callback",
+      callbackURL: `${process.env.BACKEND}/auth/google/callback`,
     },
     /* called when successfully anthorized by google */
     function (accessToken, refreshToken, profile, cb) {

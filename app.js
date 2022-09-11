@@ -25,7 +25,7 @@ const corsOptions = {
 };
 app.options("*", cors(corsOptions));
 app.use(cors(corsOptions));
-app.set("trust proxy", 1);
+//app.set("trust proxy", 1);
 
 /* session setup */
 app.use(
@@ -39,9 +39,9 @@ app.use(
     }),
     cookie: {
       maxAge: 43200000,
-      sameSite: "none",
-      secure: true,
-      httpOnly: true,
+      // sameSite: "none",
+      // secure: true,
+      // httpOnly: true,
     },
   })
 );
@@ -57,5 +57,5 @@ app.use("/api/connections", cnxRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/users", userRoutes);
 
-/* litsen on port process.env.PORT || 5000 */
-app.listen(process.env.PORT || 5000);
+/* litsen on port process.env.PORT || 8080 */
+app.listen(process.env.PORT || 8080);
